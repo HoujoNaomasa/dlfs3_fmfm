@@ -1,2 +1,4 @@
 # pythoncodes
-python
+
+## python
+MacとWindowsなどなどで共有するためのgit
