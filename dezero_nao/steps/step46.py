@@ -1,7 +1,6 @@
 if '__file__' in globals():
     import os, sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from pickletools import optimize
 import numpy as np
 from dezero import Variable
 from dezero import optimizers
@@ -17,10 +16,10 @@ max_iter = 10000
 hidden_size = 10
 
 model = MLP((hidden_size, 1))
-optimizer = optimizers.SGD(lr)
-optimizer.setup(model)
+# optimizer = optimizers.SGD(lr)
+# optimizer.setup(model)
 
-# optimizer = optimizers.SGD(lr).setup(model)
+optimizer = optimizers.MomentumSGD(lr).setup(model)
 
 for i in range(max_iter):
     y_pred = model(x)
