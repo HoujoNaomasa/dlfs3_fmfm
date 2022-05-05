@@ -264,7 +264,7 @@ class Clip(Function):
         return gx
 
 def clip(x, x_min, x_max):
-    return Clip(x_min, x_max)
+    return Clip(x_min, x_max)(x)
 
 
 class Log(Function):

@@ -27,7 +27,7 @@ class Dataset:
     def prepare(self):
         pass
 
-def get_spriral(train=True):
+def get_spiral(train=True):
     seed = 1984 if train else 2020
     np.random.seed(seed=seed)
 
@@ -42,7 +42,8 @@ def get_spriral(train=True):
             radius = 1.0 * rate
             theta = j * 4.0 + 4.0 * rate + np.random.randn() * 0.2
             ix = num_data * j + i
-            x[ix] = np.array([radius * np.sin(theta), radius * np.cos(theta)]).flatten()
+            x[ix] = np.array([radius * np.sin(theta), 
+                              radius * np.cos(theta)]).flatten()
             t[ix] = j
         # Shuffle
         indices = np.random.permutation(num_data * num_class)
@@ -53,7 +54,7 @@ def get_spriral(train=True):
 
 class Spriral(Dataset):
     def prepare(self):
-        self.data, self.label = get_spriral(self.train)
+        self.data, self.label = get_spiral(self.train)
     
 
 class BigData(Dataset):

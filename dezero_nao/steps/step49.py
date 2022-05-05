@@ -16,12 +16,12 @@ hidden_size = 10
 lr = 1.0
 
 # 2
-x, t = dezero.datasets.get_spiral(train=True)
+train_set = dezero.datasets.Spriral()
 model = MLP((hidden_size, 3))
 optimizer = optimizers.SGD(lr).setup(model)
 
 
-data_size = len(x)
+data_size = len(train_set)
 max_iter = math.ceil(data_size / batch_size)
 
 for epoch in range(max_epoch):
@@ -32,8 +32,10 @@ for epoch in range(max_epoch):
     for i in range(max_iter):
         # 4
         batch_index = index[i * batch_size:(i + 1) * batch_size]
-        batch_x = x[batch_index]
-        batch_t = t[batch_index]
+        batch = [train_set[i] for i in batch_index]
+        batch_x = np.array([example[0] for example in batch])
+        batch_t = np.array([example[1] for example in batch])
+        
 
         # 5
         y = model(batch_x)
