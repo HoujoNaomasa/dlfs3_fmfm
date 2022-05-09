@@ -20,6 +20,7 @@ else:
     from dezero.core import setup_variable
     from dezero.layers import Layer
     from dezero.models import Model
-    from dezero.dataloaders import Dataloader
+    from dezero.dataloaders import DataLoader
+    from dezero.optimizers import Optimizer
 
 setup_variable()

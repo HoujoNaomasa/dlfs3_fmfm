@@ -1,3 +1,4 @@
+from tkinter import W
 import numpy as np
 
 class Dataset:
@@ -19,7 +20,8 @@ class Dataset:
         if self.label is None:
             return self.transform(self.data[index]), None
         else:
-            return self.transform(self.data[index]), self.target_transform(self.label[index])
+            return self.transform(self.data[index]),\
+                   self.target_transform(self.label[index])
     
     def __len__(self):
         return len(self.data)
@@ -46,13 +48,13 @@ def get_spiral(train=True):
                               radius * np.cos(theta)]).flatten()
             t[ix] = j
         # Shuffle
-        indices = np.random.permutation(num_data * num_class)
-        x = x[indices]
-        t = t[indices]
-        return x, t
+    indices = np.random.permutation(num_data * num_class)
+    x = x[indices]
+    t = t[indices]
+    return x, t
 
 
-class Spriral(Dataset):
+class Spiral(Dataset):
     def prepare(self):
         self.data, self.label = get_spiral(self.train)
     
@@ -65,4 +67,3 @@ class BigData(Dataset):
     
     def __len__():
         return 1000000
-

@@ -2,7 +2,7 @@ import math
 import random
 import numpy as np
 
-class Dataloader:
+class DataLoader:
     def __init__(self, dataset, batch_size, shuffle=True):
         self.dataset = dataset
         self.batch_size = batch_size
@@ -29,7 +29,7 @@ class Dataloader:
         
         i, batch_size = self.iteration, self.batch_size
         batch_index = self.index[i * batch_size:(i + 1) * batch_size]
-        batch = [self.datasetp[i] for i in batch_index]
+        batch = [self.dataset[i] for i in batch_index]
         x = np.array([example[0] for example in batch])
         t = np.array([example[1] for example in batch])
 
