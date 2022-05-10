@@ -1,7 +1,7 @@
 import numpy as np
 gpu_enable = False
 try:
-    import cupy as np
+    import cupy as cp
     cupy = cp
 except ImportError:
     gpu_enable = False
