@@ -1,8 +1,8 @@
 if '__file__' in globals():
     import os, sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from tkinter import W
 import numpy as np
+import dezero
 from dezero import Function
 from dezero.core import Variable, as_variable
 from dezero import cuda, utils
@@ -11,7 +11,8 @@ from dezero.core import as_array
 
 class Sin(Function):
     def forward(self, x):
-        y = np.sin(x)
+        xp = cuda.get_array_module(x)
+        y = xp.sin(x)
         return y
 
     def backward(self, gy):
@@ -25,7 +26,8 @@ def sin(x):
 
 class Cos(Function):
     def forward(self, x):
-        y = np.cos(x)
+        xp = cuda.get_array_module(x)
+        y = xp.cos(x)
         return y
     
     def backward(self, gy):
@@ -39,7 +41,8 @@ def cos(x):
 
 class Tanh(Function):
     def forward(self, x):
-        y = np.tanh(x)
+        xp = cuda.get_array_module(x)
+        y = xp.tanh(x)
         return y
 
     def backward(self, gy):
@@ -69,7 +72,8 @@ def reshape(x, shape):
 
 class Transpose(Function):
     def forward(self, x):
-        y = np.transpose(x)
+        xp = cuda.get_array_module(x)
+        y = xp.transpose(x)
         return y
     
     def backward(self, gy):
@@ -103,7 +107,8 @@ class BroadcastTo(Function):
     
     def forward(self, x):
         self.x_shape = x.shape
-        y = np.broadcast_to(x, self.shape)
+        xp = cuda.get_array_module(x)
+        y = xp.broadcast_to(x, self.shape)
         return y
     
     def backward(self, gy):
@@ -186,7 +191,8 @@ def sigmoid_simple(x):
 
 class Exp(Function):
     def forward(self, x):
-        return np.exp(x)
+        xp = cuda.get_array_module(x)
+        return xp.exp(x)
 
     def backward(self, gy):
         y = self.outputs[0]()  # weakref
@@ -221,8 +227,12 @@ class GetItemGrad(Function):
         self.in_shape = in_shape
     
     def forward(self, gy):
-        gx = np.zeros(self.in_shape)
-        np.add.at(gx, self.slices, gy)
+        xp = dezero.cuda.get_array_module(gy)
+        gx = xp.zeros(self.in_shape, dtype=gy.dtype)
+        if xp is np:
+            np.add.at(gx, self.slices, gy)
+        else:
+            xp.scatter_add(gx, self.slices, gy)
         return gx
     
     def backward(self, ggx):

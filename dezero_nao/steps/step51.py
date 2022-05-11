@@ -4,8 +4,9 @@ if '__file__' in globals():
 import dezero
 from dezero import optimizers, DataLoader
 import dezero.functions as F
-import dezero.datasets
 from dezero.models import MLP
+
+
 
 max_epoch = 5
 batch_size = 100
@@ -17,9 +18,10 @@ train_loader = DataLoader(train_set, batch_size)
 test_loader = DataLoader(test_set, batch_size, shuffle=False)
 
 # model = MLP((hidden_size, 10))
-model = MLP((hidden_size, hidden_size, 10), activation=F.relu)
 # optimizer = optimizers.SGD().setup(model)
-optimizer = optimizers.Adam().setup(model)
+model = MLP((hidden_size, hidden_size, 10), activation=F.relu)
+optimizer = optimizers.SGD().setup(model)
+# optimizer = optimizers.Adam().setup(model)
 
 for epoch in range(max_epoch):
     sum_loss, sum_acc = 0, 0
