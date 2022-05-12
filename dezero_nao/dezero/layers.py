@@ -38,6 +38,14 @@ class Layer:
         for param in self.params():
             param.cleargrad()
     
+    def to_cpu(self):
+        for param in self.params():
+            param.cleargrad()
+    
+    def to_gpu(self):
+        for param in self.params():
+            param.to_cpu()
+    
     def _flatten_params(self, params_dict, parent_key=""):
         for name in self._params:
             obj = self.__dict__[name]
