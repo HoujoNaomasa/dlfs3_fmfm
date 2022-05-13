@@ -6,7 +6,7 @@ import dezero
 
 class Config:
     enable_backprop = True
-
+    train = True
 
 @contextlib.contextmanager
 def using_config(name, value):
@@ -16,6 +16,9 @@ def using_config(name, value):
         yield
     finally:
         setattr(Config, name, old_value)
+
+def test_mode():
+    return using_config('train', False)
 
 def no_grad():
     return using_config('enable_backprop', False)
@@ -249,11 +252,11 @@ class Div(Function):
         return gx0, gx1
 
 def div(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Div()(x0, x1)
 
 def rdiv(x0, x1):
-    x1 = as_array(x1)
+    x1 = as_array(x1, dezero.cuda.get_array_module(x0.data))
     return Div()(x1, x0)
 
 class Neg(Function):
