@@ -3,11 +3,8 @@ if '__file__' in globals():
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
 import dezero
-from dezero import Function
-from dezero.core import Variable, as_variable
 from dezero import cuda, utils
-from dezero.core import as_array
-
+from dezero.core import Function, Variable, as_variable, as_array
 
 class Sin(Function):
     def forward(self, x):
@@ -480,3 +477,23 @@ def dropout(x, dropout_ratio=0.5):
         return y
     else:
         return x
+
+
+
+# conv
+
+from dezero.functions_conv import conv2d
+from dezero.functions_conv import deconv2d
+from dezero.functions_conv import conv2d_simple
+from dezero.functions_conv import im2col
+from dezero.functions_conv import col2im
+from dezero.functions_conv import pooling_simple
+from dezero.functions_conv import pooling
+from dezero.functions_conv import average_pooling
+from dezero.core import add
+from dezero.core import sub
+from dezero.core import rsub
+from dezero.core import mul
+from dezero.core import div
+from dezero.core import neg
+from dezero.core import pow
